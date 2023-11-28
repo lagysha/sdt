@@ -18,9 +18,6 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "working_hours")
-    private Integer workingHours;
-
     @Column(nullable = false, name = "from_date")
     private Timestamp fromDate;
 
