@@ -25,7 +25,7 @@ public class Department {
 
     @OneToOne
     @JoinColumn(name = "head_of_department__id")
-    private Employee employee;
+    private Employee headOfDepartment;
 
     @Setter(AccessLevel.PRIVATE)
     @OneToMany(mappedBy = "department")

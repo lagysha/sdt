@@ -33,6 +33,14 @@ public class Employee {
     @JoinColumn(name = "department_id",foreignKey = @ForeignKey(name = "employees_departments_fk"))
     private Department department;
 
+    public Employee(String loginName, String password, String role, Salary salary, Department department) {
+        this.loginName = loginName;
+        this.password = password;
+        this.role = role;
+        this.salary = salary;
+        this.department = department;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
