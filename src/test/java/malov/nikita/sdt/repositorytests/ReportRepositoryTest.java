@@ -1,5 +1,6 @@
 package malov.nikita.sdt.repositorytests;
 
+import malov.nikita.sdt.dto.ReportResponseDto;
 import malov.nikita.sdt.entity.*;
 import malov.nikita.sdt.repository.DepartmentRepository;
 import malov.nikita.sdt.repository.EmployeeRepository;
@@ -8,15 +9,19 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.springframework.data.domain.Pageable;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -61,14 +66,27 @@ public class ReportRepositoryTest {
         LocalDate localeDate3 = localDate2.plusMonths(1);
         Report report3 = new Report(localDate1, localeDate3,employee3,40_000);
         report3.setBonus(new Bonus("",0));
-        List<Report> expectedReports = List.of(report1,report2);
+        List<ReportResponseDto> expectedReports = Stream.of(report2)
+                                .map(report ->
+                                        new ReportResponseDto(
+                                                report.getFromDate(),
+                                                report.getToDate(),
+                                                report.getEmployee().getRole(),
+                                                report.getEmployee().getSalary().getAmount(),
+                                                report.getBonus().getReason(),
+                                                report.getBonus().getAmount(),
+                                                report.getWage(),
+                                                report.getStatus()
+                                        )).toList();
+
         reportRepository.save(report1);
         reportRepository.save(report2);
         reportRepository.save(report3);
 
-        List<Report> actualReports = reportRepository.findAllByFromDateAndToDate(localDate1,localDate2);
+        List<ReportResponseDto> actualReports = reportRepository
+                .findAllByFromDateAndToDate(localDate1, localDate2, PageRequest.of(1,1));
 
-        assertNotEquals(reportRepository.findAll(),actualReports);
+        assertEquals(actualReports.size(), 1);
         assertEquals(expectedReports,actualReports);
     }
 }
