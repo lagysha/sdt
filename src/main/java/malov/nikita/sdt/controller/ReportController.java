@@ -21,8 +21,8 @@ public class ReportController {
     private final ReportService reportService;
 
     @GetMapping
-    public List<ReportResponseDto> getAllReportsByDate(@RequestBody ReportDateDtoRequest request, Pageable pageable){
-        System.out.println(request);
+    public List<ReportResponseDto> getAllReportsByDate(@RequestBody ReportDateDtoRequest request,
+                                                       Pageable pageable){
         return reportService.getAllReportsByDate(request,pageable);
     }
 }

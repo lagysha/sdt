@@ -19,6 +19,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<ReportResponseDto> getAllReportsByDate(ReportDateDtoRequest request, Pageable pageable) {
-        return reportRepository.findAllByFromDateAndToDate(request.getFromDate(),request.getToDate(),pageable);
+        return reportRepository.findAllByFromDateAndToDate(request.getFromDate(),
+                request.getToDate(),pageable);
     }
 }

@@ -9,5 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report,Long>{
-    List<ReportResponseDto> findAllByFromDateAndToDate(LocalDate fromDate, LocalDate toDate, Pageable pageable);
+    List<ReportResponseDto> findAllByFromDateAndToDate(LocalDate fromDate,
+                                                       LocalDate toDate,
+                                                       Pageable pageable);
 }
